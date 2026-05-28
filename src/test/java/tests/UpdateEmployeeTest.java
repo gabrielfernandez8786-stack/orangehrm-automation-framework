@@ -1,15 +1,23 @@
-public void updateEmployee(String newFirstName) {
-    // Hacer clic en el botón de edición del primer resultado
-    driver.findElement(By.xpath("//i[contains(@class, 'oxd-icon-button') and contains(@class, 'bi-pencil')]")).click();
-    
-    // Esperar que cargue el formulario
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='First Name']")));
-    
-    // Limpiar y escribir nuevo nombre
-    WebElement firstNameField = driver.findElement(By.xpath("//input[@placeholder='First Name']"));
-    firstNameField.clear();
-    firstNameField.sendKeys(newFirstName);
-    
-    // Guardar
-    driver.findElement(By.xpath("//button[contains(@class, 'oxd-button') and contains(., 'Save')]")).click();
+package tests;
+
+import org.testng.annotations.Test;
+import pages.LoginPage;
+import pages.DashboardPage;
+import pages.EmployeePage;
+import utils.BaseTest;
+import utils.TestData;
+
+public class UpdateEmployeeTest extends BaseTest {
+
+    @Test
+    public void testUpdateEmployee() throws InterruptedException {
+        new LoginPage(driver).login("Admin", "admin123");
+        new DashboardPage(driver).goToPIM();
+
+        EmployeePage empPage = new EmployeePage(driver);
+        Thread.sleep(2000);
+        empPage.searchEmployeeById(TestData.employeeId);
+        Thread.sleep(2000);
+        empPage.updateEmployee(TestData.updatedFirstName);
+    }
 }
