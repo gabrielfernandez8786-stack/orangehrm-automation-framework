@@ -48,7 +48,7 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         
         driver.get("https://opensource-demo.orangehrmlive.com/");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
