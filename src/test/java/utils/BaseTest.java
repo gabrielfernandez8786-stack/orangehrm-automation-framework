@@ -5,6 +5,7 @@ import com.aventstack.extentreports.ExtentTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.By;
@@ -35,20 +36,22 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        // Setup ChromeDriver automatically
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-
-        // Maximize window
+        
+        // Configuración para GitHub Actions (headless)
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-
-        // Add an explicit wait (10 seconds default)
+        
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        // Load the application URL
+        
         driver.get("https://opensource-demo.orangehrmlive.com/");
-
-        // Wait until the login page is visible
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
     }
 
