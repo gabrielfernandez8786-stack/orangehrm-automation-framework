@@ -3,8 +3,6 @@ name: OrangeHRM Automation Tests
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -31,8 +29,8 @@ jobs:
       env:
         CHROME_BIN: /usr/bin/google-chrome
     
-    - name: Mostrar resultados de pruebas
+    - name: Mostrar resultados detallados
       if: always()
       run: |
-        echo "=== Reportes de pruebas ==="
-        cat target/surefire-reports/*.txt
+        echo "=== Resultados de pruebas ==="
+        find . -name "*.txt" -path "*/surefire-reports/*" -exec cat {} \;
