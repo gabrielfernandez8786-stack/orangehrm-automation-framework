@@ -1,14 +1,20 @@
-public void searchEmployeeById(String employeeId) {
-    // Esperar tabla
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("oxd-table")));
-    
-    // Buscar el campo "Employee Id" (texto en inglés)
-    By employeeIdField = By.xpath("//label[text()='Employee Id']/ancestor::div[contains(@class, 'oxd-input-group')]//input");
-    
-    WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(employeeIdField));
-    element.sendKeys(employeeId);
-    
-    // Click en Search
-    driver.findElement(By.xpath("//button[contains(@class, 'oxd-button') and text()=' Search ']")).click();
-    Thread.sleep(2000);
+package tests;
+
+import org.testng.annotations.Test;
+import pages.LoginPage;
+import pages.DashboardPage;
+import pages.EmployeePage;
+import utils.BaseTest;
+import utils.TestData;
+
+public class SearchEmployeeTest extends BaseTest {
+
+    @Test
+    public void testSearchEmployee() {
+        new LoginPage(driver).login("Admin", "admin123");
+        new DashboardPage(driver).goToPIM();
+
+        EmployeePage empPage = new EmployeePage(driver);
+        empPage.searchEmployeeById(TestData.employeeId);
+    }
 }
