@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="OrangeHRM Test Suite" verbose="1">
+
+    <test name="All Tests" preserve-order="true">
+        <classes>
+            <!-- 1. Login Test -->
+            <class name="tests.LoginTest"/>
+
+            <!-- 2. Invalid Login Test -->
+            <class name="tests.InvalidLoginTest"/>
+
+            <!-- 3. Add Employee Test -->
+            <class name="tests.AddEmployeeTest"/>
+
+            <!-- 4. Search Employee Test -->
+            <class name="tests.SearchEmployeeTest"/>
+
+            <!-- 5. Update Employee Test -->
+            <class name="tests.UpdateEmployeeTest"/>
+
+            <!-- 6. Delete Employee Test -->
+            <class name="tests.DeleteEmployeeTest"/>
+
+            <!-- 7. Logout Test -->
+            <class name="tests.LogoutTest"/>
+        </classes>
+    </test>
+
+</suite>
