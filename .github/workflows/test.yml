@@ -24,13 +24,25 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
     
-    - name: Ejecutar pruebas
+    - name: Ejecutar pruebas (permitir fallo para ver resultados)
+      id: tests
+      continue-on-error: true
       run: mvn clean test
       env:
         CHROME_BIN: /usr/bin/google-chrome
     
-    - name: Mostrar resultados detallados
+    - name: Mostrar resultados detallados (SIEMPRE)
       if: always()
       run: |
-        echo "=== Resultados de pruebas ==="
-        find . -name "*.txt" -path "*/surefire-reports/*" -exec cat {} \;
+        echo "=== RESULTADOS DE PRUEBAS ==="
+        if [ -d target/surefire-reports ]; then
+          cat target/surefire-reports/*.txt
+          cat target/surefire-reports/*.xml
+        else
+          echo "No se encontraron reportes en target/surefire-reports"
+          find . -name "*.txt" -type f
+        fi
+    
+    - name: Falla el workflow si los tests fallaron
+      if: steps.tests.outcome == 'failure'
+      run: exit 1
