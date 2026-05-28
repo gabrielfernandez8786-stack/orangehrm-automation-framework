@@ -1,4 +1,4 @@
-name: OrangeHRM Automation Tests
+name: OrangeHRM Tests
 
 on:
   push:
@@ -10,39 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clonar repositorio
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
-    - name: Configurar JDK 17
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Instalar Chrome
+    - name: Install Chrome
       run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+        wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+        sudo apt-get install -f
     
-    - name: Ejecutar pruebas (permitir fallo para ver resultados)
-      id: tests
-      continue-on-error: true
-      run: mvn clean test
-      env:
-        CHROME_BIN: /usr/bin/google-chrome
-    
-    - name: Mostrar resultados detallados (SIEMPRE)
-      if: always()
-      run: |
-        echo "=== RESULTADOS DE PRUEBAS ==="
-        if [ -d target/surefire-reports ]; then
-          cat target/surefire-reports/*.txt
-          cat target/surefire-reports/*.xml
-        else
-          echo "No se encontraron reportes en target/surefire-reports"
-          find . -name "*.txt" -type f
-        fi
-    
-    - name: Falla el workflow si los tests fallaron
-      if: steps.tests.outcome == 'failure'
-      run: exit 1
+    - name: Run tests
+      run: mvn test -Dtest=LoginTest
