@@ -26,10 +26,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
     
-    - name: Crear carpeta reports
-      run: mkdir -p reports
-    
     - name: Ejecutar pruebas
       run: mvn clean test
       env:
         CHROME_BIN: /usr/bin/google-chrome
+    
+    - name: Mostrar resultados de pruebas
+      if: always()
+      run: |
+        echo "=== Reportes de pruebas ==="
+        cat target/surefire-reports/*.txt
