@@ -38,7 +38,6 @@ public class BaseTest {
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         
-        // Configuración para GitHub Actions (headless)
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         options.addArguments("--no-sandbox");
